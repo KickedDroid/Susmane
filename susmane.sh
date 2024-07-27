@@ -13,7 +13,7 @@ URL=$1
 if [ ! -f Dockerfile ]; then
     cat << EOF > Dockerfile
 FROM alpine:latest
-RUN apk add --no-cache curl wget
+RUN apk add --no-cache curl wget file
 WORKDIR /analysis
 EOF
     echo "Dockerfile created."
@@ -29,11 +29,9 @@ fi
 mkdir -p analysis
 
 # Run the container
-podman run -it --rm -v ./analysis:/mnt/host malware-analysis /bin/sh -c "
+podman run -it --rm -v --network none malware-analysis /bin/sh -c "
     wget '$URL' -O /analysis/suspicious-file
     echo 'File downloaded. Perform your analysis now.'
-    echo 'If the file is safe, you can copy it to the host system with:'
-    echo 'cp /analysis/suspicious-file /mnt/host/'
     /bin/sh
 "
 
