@@ -29,7 +29,7 @@ fi
 mkdir -p analysis
 
 # Run the container
-podman run -it --rm -v --network none malware-analysis /bin/sh -c "
+podman run -it --rm -v malware-analysis /bin/sh -c "
     wget '$URL' -O /analysis/suspicious-file
     echo 'File downloaded. Perform your analysis now.'
     /bin/sh
